@@ -38,3 +38,19 @@ def test_parse_simple_node_description_with_blank_lines():
     assert result is not None
     assert "parser" in result.nodes
     assert result.nodes["parser"] == "goyacc parser.y"
+
+
+def test_parse_simple_node_description_with_line_continuation():
+    s = "\n\nparser = |\n`goyacc parser.y`"
+    result = parse(s)
+    assert result is not None
+    assert "parser" in result.nodes
+    assert result.nodes["parser"] == "goyacc parser.y"
+
+
+def test_parse_simple_node_description_with_line_continuation_in_desc():
+    s = "\n\nparser = `goyacc |\nparser.y`"
+    result = parse(s)
+    assert result is not None
+    assert "parser" in result.nodes
+    assert result.nodes["parser"] == "goyacc parser.y"
