@@ -22,6 +22,9 @@ class Graph(object):
     def direct_successors_of(self, node):
         return self.edges[node]
 
+    def successors_of(self, node):
+        return self.edges[node]
+
     def direct_predecessors_of(self, node):
         for n in self.nodes:
             if node in self.edges[n]:
