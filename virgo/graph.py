@@ -52,6 +52,30 @@ class Graph(object):
     def add_description(self, node, description):
         self.nodes[node] = description
 
+    def roots(self):
+        s = set(self.nodes)
+        for n in self.nodes:
+            for m in self.edges[n]:
+                if m in s:
+                    s.remove(m)
+        return s
+
+    def topological_sort(self):
+        count = defaultdict(int) 
+        for n in self.nodes:
+            for m in self.edges[n]:
+                count[m] = count[m] + 1
+
+        queue = list(self.roots())
+
+        while queue:
+            n = queue.pop()
+            yield n
+            for m in self.edges[n]:
+                count[m] = count[m] - 1
+                if count[m] == 0:
+                    queue.append(m)
+
 
 def make_graph(spec):
     connection_list, node_list = spec

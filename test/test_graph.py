@@ -28,4 +28,4 @@ def test_topological_sorting():
     filename = "test/files/sorting.vgo"
     g = virgo.load(filename)
     l = list(g.topological_sort())
-    assert l.indexof("x7") < l.indexof("x11")
+    assert l.index("x7") < l.index("x11")
