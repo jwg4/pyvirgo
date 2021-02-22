@@ -20,6 +20,7 @@ def test_parse_edge_statement():
         data = f.read()
     g = virgo.parse(data)
     assert g is not None 
+    assert set(g.direct_successors_of("b")) == {"d", "e", "h", "i"}
 
 
 def test_parse_node_statement():
