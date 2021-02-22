@@ -23,3 +23,9 @@ def test_parse_edge_statement_successors():
     assert set(g.successors_of("b")) == {"d", "e", "h", "i"}
     assert set(g.successors_of("a")) == {"b", "c", "d", "e", "h", "i"}
     
+
+def test_topological_sorting():
+    filename = "test/files/sorting.vgo"
+    g = virgo.load(filename)
+    l = list(g.topological_sort())
+    assert l.indexof("x7") < l.indexof("x11")
