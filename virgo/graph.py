@@ -29,8 +29,8 @@ class Graph(object):
 
     def add_description(self, node, description):
         self.nodes[node] = description
-                
-         
+
+
 def make_graph(spec):
     connection_list, node_list = spec
     graph = Graph()

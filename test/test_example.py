@@ -29,4 +29,9 @@ def test_parse_node_statement():
     g = virgo.parse(data)
     assert g is not None 
     assert "vertex_definition_1" in g.nodes
-    #assert g.nodes["vertex_defition_1"] = "
+    assert g.nodes["vertex_definition_1"] == """
+    anything
+    can
+    go
+    ${here}
+"""
