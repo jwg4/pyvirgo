@@ -26,6 +26,9 @@ tokens = (
     'BOTH_CONNECT',
     'COMMA',
     'NEWLINE',
+    'EQUALS',
+    'BACKTICK',
+    'TEXT',
 )
 
 t_NODENAME = r'[a-zA-Z_:][a-zA-Z_:0-9]*'
@@ -34,6 +37,8 @@ t_RIGHT_CONNECT = r'<-'
 t_BOTH_CONNECT = r'--'
 t_COMMA = r','
 t_NEWLINE = r'\n'
+t_EQUALS = r'='
+t_TEXT = r'`[^`]*`'
 
 t_ignore = " \t"
 
@@ -47,6 +52,27 @@ def tokenize(data):
         if not tok:
             break
         yield tok
+
+
+def p_edges_and_nodes_base(p):
+    'edges_and_nodes : '
+    p[0] = ([], [])
+
+
+def p_edges_and_nodes_edges(p):
+    'edges_and_nodes : edges_and_nodes connection_list'
+    p[0] = (p[1][0] + p[2], p[1][1])
+
+
+def p_edges_and_nodes_nodes(p):
+    'edges_and_nodes : edges_and_nodes node_spec'
+    p[0] = (p[1][0], p[1][1] + [p[2]])
+
+
+def p_node_spec(p):
+    'node_spec : NODENAME EQUALS TEXT NEWLINE'
+    text = p[3][1:-1]
+    p[0] = (p[1], text)
 
 
 def p_connectionlist_lines(p):

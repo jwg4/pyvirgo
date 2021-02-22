@@ -29,7 +29,8 @@ class Graph(object):
         
                 
          
-def make_graph(connection_list):
+def make_graph(spec):
+    connection_list, node_list = spec
     graph = Graph()
     for connections in connection_list:
         for connection in connections:
