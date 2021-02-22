@@ -23,7 +23,16 @@ class Graph(object):
         return self.edges[node]
 
     def successors_of(self, node):
-        return self.edges[node]
+        queue = [node]
+        s = set()
+        while queue:
+            n = queue.pop()
+            for nn in self.direct_successors_of(n):
+                if nn not in s:
+                    s.add(nn)
+                    queue.append(nn)
+            
+        return s
 
     def direct_predecessors_of(self, node):
         for n in self.nodes:

@@ -18,4 +18,5 @@ def test_parse_edge_statement_successors():
     assert g is not None 
     assert set(g.direct_successors_of("b")) == {"d", "e", "h", "i"}
     assert set(g.successors_of("b")) == {"d", "e", "h", "i"}
+    assert set(g.successors_of("a")) == {"b", "c", "d", "e", "h", "i"}
     
