@@ -18,6 +18,16 @@ def test_parse_harder_example():
     assert set(g.direct_successors_of("src files")) == {"test"}
 
 
+def test_parse_example_with_multiline_comments():
+    with open("test/files/comments.vgo") as f:
+        data = f.read()
+    g = virgo.parse(data)
+    assert g is not None 
+    assert "src files" in g.nodes
+    assert g.nodes["src files"] == "go build ./..."
+    assert set(g.direct_successors_of("src files")) == {"test"}
+
+
 def test_parse_edge_statement():
     with open("test/files/edges.vgo") as f:
         data = f.read()
