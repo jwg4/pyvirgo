@@ -15,6 +15,7 @@ def test_parse_harder_example():
     assert g is not None 
     assert "src files" in g.nodes
     assert g.nodes["src files"] == "go build ./..."
+    assert set(g.direct_successors_of("src files")) == {"test"}
 
 
 def test_parse_edge_statement():
