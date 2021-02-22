@@ -131,7 +131,5 @@ parser = yacc.yacc()
 
 def parse(data):
     clean_data = preprocess(data)
-    #tokens = list(tokenize(clean_data))
-    print(clean_data)
     result = parser.parse(clean_data)
     return make_graph(result)
