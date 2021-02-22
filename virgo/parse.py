@@ -88,11 +88,6 @@ def p_node_spec(p):
     p[0] = (p[1], text)
 
 
-def p_connectionlist_lines(p):
-    'connection_list : connection_list connection_list'
-    p[0] = p[1] + p[2]
-
-
 def p_nodelist_node(p):
     'nodelist : node_name'
     p[0] = [p[1]]

@@ -13,6 +13,8 @@ def test_parse_harder_example():
         data = f.read()
     g = virgo.parse(data)
     assert g is not None 
+    assert "src files" in g.nodes
+    assert g.nodes["src files"] == "go build ./..."
 
 
 def test_parse_edge_statement():

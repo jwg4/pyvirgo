@@ -22,3 +22,19 @@ def test_parse_simple_node_description():
     assert result is not None
     assert "parser" in result.nodes
     assert result.nodes["parser"] == "goyacc parser.y"
+
+
+def test_parse_simple_node_description_with_blank_line():
+    s = "\nparser = `goyacc parser.y`"
+    result = parse(s)
+    assert result is not None
+    assert "parser" in result.nodes
+    assert result.nodes["parser"] == "goyacc parser.y"
+
+
+def test_parse_simple_node_description_with_blank_lines():
+    s = "\n\nparser = `goyacc parser.y`"
+    result = parse(s)
+    assert result is not None
+    assert "parser" in result.nodes
+    assert result.nodes["parser"] == "goyacc parser.y"
