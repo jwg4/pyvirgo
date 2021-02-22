@@ -21,6 +21,7 @@ def preprocess(data):
 
 tokens = (
     'NODENAME',
+    'QUOTED',
     'LEFT_CONNECT',
     'RIGHT_CONNECT',
     'BOTH_CONNECT',
@@ -32,6 +33,7 @@ tokens = (
 )
 
 t_NODENAME = r'[a-zA-Z_:][a-zA-Z_:0-9]*'
+t_QUOTED = r'"[a-zA-Z_:][a-zA-Z_:0-9 \t]*"'
 t_LEFT_CONNECT = r'->'
 t_RIGHT_CONNECT = r'<-'
 t_BOTH_CONNECT = r'--'
@@ -69,8 +71,19 @@ def p_edges_and_nodes_nodes(p):
     p[0] = (p[1][0], p[1][1] + [p[2]])
 
 
+def p_node_name_nodename(p):
+    'node_name : NODENAME'
+    p[0] = p[1]
+
+
+def p_node_name_quoted(p):
+    'node_name : QUOTED'
+    text = p[1][1:-1]
+    p[0] = text
+
+
 def p_node_spec(p):
-    'node_spec : NODENAME EQUALS TEXT NEWLINE'
+    'node_spec : node_name EQUALS TEXT NEWLINE'
     text = p[3][1:-1]
     p[0] = (p[1], text)
 
@@ -81,12 +94,12 @@ def p_connectionlist_lines(p):
 
 
 def p_nodelist_node(p):
-    'nodelist : NODENAME'
+    'nodelist : node_name'
     p[0] = [p[1]]
 
 
 def p_nodelist_comma(p):
-    'nodelist : nodelist COMMA NODENAME'
+    'nodelist : nodelist COMMA node_name'
     p[0] = p[1] + [p[3]]
 
 
