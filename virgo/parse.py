@@ -3,6 +3,9 @@ import re
 import ply.lex as lex
 import ply.yacc as yacc
 
+from .graph import make_graph
+from .internal import Connection
+
 
 COMMENT_REGEX = re.compile(r"[/]{2}.*$")
 
@@ -100,13 +103,6 @@ def p_error(p):
     print("Syntax error in input: %s" % (p, ))
 
 
-class Connection(object):
-    def __init__(self, first, second, op):
-        self.first = first
-        self.second = second
-        self.op = op
-
-
 parser = yacc.yacc()
 
 
@@ -115,4 +111,4 @@ def parse(data):
     #tokens = list(tokenize(clean_data))
     print(clean_data)
     result = parser.parse(clean_data)
-    return result
+    return make_graph(result)
