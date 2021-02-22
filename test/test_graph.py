@@ -1,7 +1,7 @@
 import virgo
 
 
-def test_parse_harder_example():
+def test_parse_make_example():
     with open("test/files/make.vgo") as f:
         data = f.read()
     g = virgo.parse(data)
@@ -9,6 +9,9 @@ def test_parse_harder_example():
     assert "src files" in g.nodes
     assert g.nodes["src files"] == "go build ./..."
     assert set(g.direct_successors_of("src files")) == {"test"}
+    assert set(g.successors_of("src files")) == {"test"}
+    assert set(g.direct_predecessors_of("src files")) == {"parser", "lexer"}
+    assert set(g.predecessors_of("src files")) == {"clean", "parser", "lexer"}
 
 
 def test_parse_edge_statement_successors():

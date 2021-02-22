@@ -39,6 +39,16 @@ class Graph(object):
             if node in self.edges[n]:
                 yield n
 
+    def predecessors_of(self, node):
+        """
+            Not an efficient algorithm.
+            Not clear if we care about this - do we
+            want to use some other graph library?
+        """
+        for n in self.nodes: 
+            if node in self.successors_of(n):
+                yield n
+
     def add_description(self, node, description):
         self.nodes[node] = description
 
