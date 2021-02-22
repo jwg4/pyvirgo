@@ -16,3 +16,5 @@ def test_gets_parsed_or_throws_good_error(s):
         assert g is not None
     except VirgoException:
         pass
+    except Exception:
+        assert False
