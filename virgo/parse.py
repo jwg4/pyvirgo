@@ -8,7 +8,8 @@ COMMENT_REGEX = re.compile(r"[/]{2}.*$")
 
 def _gen_preprocess(data):
     for line in data.split("\n"):
-        yield COMMENT_REGEX.sub(line, "")        
+        yield COMMENT_REGEX.sub("", line)        
+    yield ""
 
 
 def preprocess(data):
@@ -24,12 +25,12 @@ tokens = (
     'NEWLINE',
 )
 
-t_NODENAME = '[a-zA-Z_:][a-zA-Z_:0-9]*'
-t_LEFT_CONNECT = '->'
-t_RIGHT_CONNECT = '<-'
-t_BOTH_CONNECT = '--'
-t_COMMA = ','
-t_NEWLINE = '\n'
+t_NODENAME = r'[a-zA-Z_:][a-zA-Z_:0-9]*'
+t_LEFT_CONNECT = r'->'
+t_RIGHT_CONNECT = r'<-'
+t_BOTH_CONNECT = r'--'
+t_COMMA = r','
+t_NEWLINE = r'\n'
 
 t_ignore = " \t"
 
@@ -45,6 +46,11 @@ def tokenize(data):
         yield tok
 
 
+def p_connectionlist_lines(p):
+    'connection_list : connection_list connection_list'
+    p[0] = p[1] + p[2]
+
+
 def p_nodelist_node(p):
     'nodelist : NODENAME'
     p[0] = [p[1]]
@@ -55,19 +61,19 @@ def p_nodelist_comma(p):
     p[0] = p[1] + [p[3]]
 
 
-def p_connect(p):
+def p_right_connect(p):
     'connect : RIGHT_CONNECT'
-    p[0] = "right"
+    p[0] = p[1]
 
 
-def p_connect(p):
+def p_left_connect(p):
     'connect : LEFT_CONNECT'
-    p[0] = "left"
+    p[0] = p[1]
 
 
-def p_connect(p):
+def p_both_connect(p):
     'connect : BOTH_CONNECT'
-    p[0] = "both"
+    p[0] = p[1]
 
 
 def p_nodelist_connection(p):
@@ -78,6 +84,20 @@ def p_nodelist_connection(p):
 def p_nodelist_further_connections(p):
     'connections : connections connect nodelist'
     p[0] = p[1] + [Connection(p[1][-1].second, p[3], p[2])]
+
+
+def p_connectionlist_empty_line(p):
+    'connection_list : NEWLINE'
+    p[0] = []
+
+
+def p_connectionlist_line(p):
+    'connection_list : connections NEWLINE'
+    p[0] = [p[1]]
+
+
+def p_error(p):
+    print("Syntax error in input: %s" % (p, ))
 
 
 class Connection(object):
@@ -92,6 +112,7 @@ parser = yacc.yacc()
 
 def parse(data):
     clean_data = preprocess(data)
-    tokens = tokenize(clean_data)
-    result = parser.parse(tokens)
+    #tokens = list(tokenize(clean_data))
+    print(clean_data)
+    result = parser.parse(clean_data, debug=True)
     return result
