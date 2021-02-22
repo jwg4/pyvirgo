@@ -1,4 +1,4 @@
-from virgo import parse
+from virgo.parse import parse
 
 
 def test_parse_simple_edge():

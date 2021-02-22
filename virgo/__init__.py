@@ -1,1 +1,1 @@
-from .parse import parse
+from .load import load, loads

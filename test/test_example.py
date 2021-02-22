@@ -1,17 +1,20 @@
 import virgo
 
 
+def test_parse_basic_example_from_file():
+    g = virgo.load("test/files/config.vgo")
+    assert g is not None 
+
+
 def test_parse_basic_example():
     with open("test/files/config.vgo") as f:
         data = f.read()
-    g = virgo.parse(data)
+    g = virgo.loads(data)
     assert g is not None 
 
 
 def test_parse_harder_example():
-    with open("test/files/make.vgo") as f:
-        data = f.read()
-    g = virgo.parse(data)
+    g = virgo.load("test/files/make.vgo")
     assert g is not None 
     assert "src files" in g.nodes
     assert g.nodes["src files"] == "go build ./..."
@@ -19,9 +22,7 @@ def test_parse_harder_example():
 
 
 def test_parse_example_with_multiline_comments():
-    with open("test/files/comments.vgo") as f:
-        data = f.read()
-    g = virgo.parse(data)
+    g = virgo.load("test/files/comments.vgo")
     assert g is not None 
     assert "src files" in g.nodes
     assert g.nodes["src files"] == "go build ./..."
@@ -29,17 +30,13 @@ def test_parse_example_with_multiline_comments():
 
 
 def test_parse_edge_statement():
-    with open("test/files/edges.vgo") as f:
-        data = f.read()
-    g = virgo.parse(data)
+    g = virgo.load("test/files/edges.vgo")
     assert g is not None 
     assert set(g.direct_successors_of("b")) == {"d", "e", "h", "i"}
 
 
 def test_parse_node_statement():
-    with open("test/files/nodes.vgo") as f:
-        data = f.read()
-    g = virgo.parse(data)
+    g = virgo.load("test/files/nodes.vgo")
     assert g is not None 
     assert "vertex_definition_1" in g.nodes
     assert g.nodes["vertex_definition_1"] == """
