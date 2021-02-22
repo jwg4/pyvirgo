@@ -61,10 +61,12 @@ class Graph(object):
         return s
 
     def topological_sort(self):
+        total = 0
         count = defaultdict(int) 
         for n in self.nodes:
             for m in self.edges[n]:
                 count[m] = count[m] + 1
+                total = total + 1
 
         queue = list(self.roots())
 
@@ -73,8 +75,12 @@ class Graph(object):
             yield n
             for m in self.edges[n]:
                 count[m] = count[m] - 1
+                total = total - 1
                 if count[m] == 0:
                     queue.append(m)
+
+        if total > 0:
+            raise Exception("Tried to topological sort a graph with a cycle.")
 
 
 def make_graph(spec):
