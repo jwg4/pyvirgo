@@ -114,5 +114,5 @@ def parse(data):
     clean_data = preprocess(data)
     #tokens = list(tokenize(clean_data))
     print(clean_data)
-    result = parser.parse(clean_data, debug=True)
+    result = parser.parse(clean_data)
     return result
