@@ -1,0 +1,9 @@
+// config.vgo
+
+clean -> parser, lexer -> "src files" -> test
+
+parser = `goyacc parser.y`
+lexer  = `golex lex.l`
+clean  = `rm lex.yy.go parser.go || true`
+"test"   = `go test-v`
+"src files"  = `go build ./...`
