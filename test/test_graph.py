@@ -33,6 +33,13 @@ def test_topological_sorting():
     assert l.index("x7") < l.index("x11")
 
 
+def test_topological_sorting_of_single_cycle():
+    filename = "test/files/cycle.vgo"
+    g = virgo.load(filename)
+    with pytest.raises(Exception):
+        g.topological_sort()
+
+
 def test_topological_sorting_of_cycles():
     filename = "test/files/grid.vgo"
     g = virgo.load(filename)
