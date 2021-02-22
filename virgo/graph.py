@@ -26,7 +26,9 @@ class Graph(object):
         for n in self.nodes:
             if node in self.edges[n]:
                 yield n
-        
+
+    def add_description(self, node, description):
+        self.nodes[node] = description
                 
          
 def make_graph(spec):
@@ -35,4 +37,6 @@ def make_graph(spec):
     for connections in connection_list:
         for connection in connections:
             graph.add_connection(connection)
+    for node, description in node_list:
+        graph.add_description(node, description)
     return graph
