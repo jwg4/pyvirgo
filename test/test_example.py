@@ -45,3 +45,8 @@ def test_parse_node_statement():
     go
     ${here}
 """
+
+
+def test_parse_another_graph_from_file():
+    g = virgo.load("test/files/grid.vgo")
+    assert g is not None 
