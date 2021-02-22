@@ -1,0 +1,2 @@
+class VirgoException(Exception):
+    pass
