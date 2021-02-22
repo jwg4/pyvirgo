@@ -1,0 +1,6 @@
+vertex_definition_1 = `
+    anything
+    can
+    go
+    ${here}
+`
